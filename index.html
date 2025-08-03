@@ -4,25 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CTF Roadmap 8 Weeks</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #121212; color: #f8f9fa; }
+    .card { background-color: #1e1e1e; border: 1px solid #333; }
+    .card-title { color: #00ffcc; }
+    a { color: #0dcaf0; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen p-6">
-  <header class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-teal-400">CTF Roadmap 8 Weeks</h1>
-    <p class="text-gray-400 mt-2">ซ้อมทุกสกิล Web • Crypto • Forensics • Pwn • OSINT</p>
-  </header>
-
-  <div id="roadmap" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-
-  <footer class="text-center mt-10 text-gray-500">
-    <p>© 2025 CTF Training | Save progress ใน Browser อัตโนมัติ</p>
-  </footer>
+<body class="p-4">
+  <div class="container">
+    <h1 class="text-center mb-4 text-info">CTF Roadmap 8 Weeks</h1>
+    <div class="row" id="roadmap"></div>
+  </div>
 
   <script>
     const data = [
       {
         week: "Week 1: พื้นฐาน Linux + Tools",
-        color: "from-green-400 to-emerald-600",
         tasks: [
           { name: "OverTheWire - Bandit (Level 1-20)", link: "https://overthewire.org/wargames/bandit/" },
           { name: "picoCTF - General Skills", link: "https://play.picoctf.org/practice?category=1&page=1" }
@@ -30,7 +30,6 @@
       },
       {
         week: "Week 2: Web Exploitation",
-        color: "from-sky-400 to-blue-600",
         tasks: [
           { name: "picoCTF - Web Exploitation", link: "https://play.picoctf.org/practice?category=3&page=1" },
           { name: "PortSwigger Academy - Basic Labs", link: "https://portswigger.net/web-security" },
@@ -39,7 +38,6 @@
       },
       {
         week: "Week 3: Cryptography",
-        color: "from-purple-400 to-fuchsia-600",
         tasks: [
           { name: "picoCTF - Cryptography", link: "https://play.picoctf.org/practice?category=4&page=1" },
           { name: "OverTheWire - Krypton", link: "https://overthewire.org/wargames/krypton/" }
@@ -47,7 +45,6 @@
       },
       {
         week: "Week 4: Forensics & Stego",
-        color: "from-pink-400 to-rose-600",
         tasks: [
           { name: "picoCTF - Forensics", link: "https://play.picoctf.org/practice?category=2&page=1" },
           { name: "CTFlearn - Forensics/Stego", link: "https://ctflearn.com/challenges" }
@@ -55,7 +52,6 @@
       },
       {
         week: "Week 5: Reverse Engineering",
-        color: "from-amber-400 to-orange-600",
         tasks: [
           { name: "picoCTF - Reverse Engineering", link: "https://play.picoctf.org/practice?category=5&page=1" },
           { name: "CTFlearn - Reverse Easy", link: "https://ctflearn.com/challenges" }
@@ -63,7 +59,6 @@
       },
       {
         week: "Week 6: Binary Exploitation",
-        color: "from-red-400 to-rose-700",
         tasks: [
           { name: "picoCTF - Binary Exploitation", link: "https://play.picoctf.org/practice?category=6&page=1" },
           { name: "OverTheWire - Narnia", link: "https://overthewire.org/wargames/narnia/" }
@@ -71,7 +66,6 @@
       },
       {
         week: "Week 7: OSINT & Network",
-        color: "from-cyan-400 to-teal-600",
         tasks: [
           { name: "picoCTF - Network Forensics", link: "https://play.picoctf.org/practice?category=2&page=1" },
           { name: "CTFlearn - OSINT", link: "https://ctflearn.com/challenges" },
@@ -80,7 +74,6 @@
       },
       {
         week: "Week 8: รวมทุกสกิล + แข่งจำลอง",
-        color: "from-lime-400 to-green-600",
         tasks: [
           { name: "picoCTF - Mixed Challenges", link: "https://play.picoctf.org/practice" },
           { name: "CTFlearn - Mixed", link: "https://ctflearn.com/challenges" },
@@ -89,23 +82,24 @@
       }
     ];
 
-    const container = document.getElementById('roadmap');
-
+    const roadmap = document.getElementById('roadmap');
     data.forEach(week => {
-      const div = document.createElement('div');
-      div.className = "bg-gray-800 rounded-xl shadow-lg p-5 hover:scale-[1.02] transition";
-      div.innerHTML = `
-        <div class="bg-gradient-to-r ${week.color} p-2 rounded-lg mb-3">
-          <h2 class="text-lg font-bold text-gray-900">${week.week}</h2>
+      const col = document.createElement('div');
+      col.className = "col-md-6 col-lg-4 mb-4";
+      col.innerHTML = `
+        <div class="card h-100 p-3">
+          <h5 class="card-title mb-3">${week.week}</h5>
+          ${week.tasks.map(t => `
+            <div class="form-check mb-2">
+              <input class="form-check-input task-checkbox" type="checkbox" data-task="${t.link}">
+              <label class="form-check-label">
+                <a href="${t.link}" target="_blank">${t.name}</a>
+              </label>
+            </div>
+          `).join('')}
         </div>
-        ${week.tasks.map(t => `
-          <label class="flex items-center space-x-2 mb-2">
-            <input type="checkbox" class="task-checkbox accent-teal-400" data-task="${t.link}">
-            <a href="${t.link}" target="_blank" class="text-blue-400 hover:underline">${t.name}</a>
-          </label>
-        `).join('')}
       `;
-      container.appendChild(div);
+      roadmap.appendChild(col);
     });
 
     document.querySelectorAll('.task-checkbox').forEach(cb => {
